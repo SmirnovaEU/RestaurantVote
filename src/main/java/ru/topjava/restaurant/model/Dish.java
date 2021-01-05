@@ -1,11 +1,28 @@
 package ru.topjava.restaurant.model;
 
+import org.hibernate.validator.constraints.Range;
+
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "dishes", uniqueConstraints = {@UniqueConstraint(columnNames = "id", name = "dishes_unique_idx")})
 public class Dish extends AbstractNamedEntity {
+
+    @Column(name = "date", nullable = false)
+    @NotNull
     private LocalDate date;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "rest_id", nullable = false)
+    @NotNull
     private Restaurant rest;
-    private Double price;
+
+    @Column(name = "price", nullable = false)
+    @Range(min = 10, max = 10000)
+    private BigDecimal price;
 
     public Dish() {
     }
@@ -32,11 +49,11 @@ public class Dish extends AbstractNamedEntity {
         this.rest = rest;
     }
 
-    public Double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Double price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

@@ -1,10 +1,25 @@
 package ru.topjava.restaurant.model;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
+@Entity
+@Table(name = "votes", uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "date"}, name = "votes_unique_user_date_idx")})
 public class Vote extends AbstractBaseEntity {
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    @NotNull
     private User user;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "rest_id", nullable = false)
+    @NotNull
     private Restaurant rest;
+
+    @Column(name = "date", nullable = false)
+    @NotNull
     private LocalDate date;
 
     public Vote() {
