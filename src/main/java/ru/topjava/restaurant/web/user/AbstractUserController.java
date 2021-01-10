@@ -6,8 +6,7 @@ import ru.topjava.restaurant.repository.UserRepository;
 
 import java.util.List;
 
-import static ru.topjava.restaurant.util.ValidationUtil.assureIdConsistent;
-import static ru.topjava.restaurant.util.ValidationUtil.checkNew;
+import static ru.topjava.restaurant.util.ValidationUtil.*;
 
 public class AbstractUserController {
 
@@ -20,6 +19,10 @@ public class AbstractUserController {
 
     public User get(int id) {
         return repository.get(id);
+    }
+
+    public User getWithVotes(int id) {
+        return checkNotFoundWithId(repository.getWithVotes(id), id);
     }
 
     public User create(User user) {

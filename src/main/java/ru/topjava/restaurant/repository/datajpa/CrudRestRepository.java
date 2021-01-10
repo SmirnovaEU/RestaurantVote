@@ -18,16 +18,16 @@ public interface CrudRestRepository extends JpaRepository<Restaurant, Integer> {
     @Query("DELETE FROM Restaurant r WHERE r.id=:id")
     int delete(@Param("id") int id);
 
-    @EntityGraph(attributePaths = {"dishes"}, type = EntityGraph.EntityGraphType.LOAD)
-    @Query("SELECT r FROM Restaurant r JOIN FETCH Dish d WHERE r.id=?1 AND d.date=?2")
+   // @EntityGraph(attributePaths = {"dishes"}, type = EntityGraph.EntityGraphType.LOAD)
+    @Query("SELECT r FROM Restaurant r JOIN FETCH r.dishes d WHERE r.id=?1 AND d.date=?2")
     Restaurant getWithDishesByDate(int id, LocalDate date);
 
     @EntityGraph(attributePaths = {"dishes"}, type = EntityGraph.EntityGraphType.LOAD)
-    @Query("SELECT r FROM Restaurant r JOIN FETCH Dish d WHERE d.date=:date")
+    @Query("SELECT r, d.name, d.price FROM Restaurant r JOIN FETCH r.dishes d WHERE d.date=:date")
     List<Restaurant> getAllWithDishesByDate(@Param("date") LocalDate date);
 
     @EntityGraph(attributePaths = {"votes"}, type = EntityGraph.EntityGraphType.LOAD)
-    @Query("SELECT r FROM Restaurant r JOIN FETCH Vote v WHERE v.date=:date")
+    @Query("SELECT r FROM Restaurant r JOIN FETCH r.votes v WHERE v.date=:date")
     List<Restaurant> getAllWithVotesByDate(@Param("date") LocalDate date);
 
     @Query("SELECT r FROM Restaurant r WHERE r.id=?1")
