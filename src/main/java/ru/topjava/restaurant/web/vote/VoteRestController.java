@@ -35,22 +35,12 @@ public class VoteRestController {
     @GetMapping("/by")
     public Vote getByDate(@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
         int userId = SecurityUtil.authUserId();
-        //  log.info("get vote for user {} for date {}", userId, date);
         return voteRepository.getByDate(date, userId);
     }
-//User can't delete his votes
-//    @DeleteMapping("/{id}")
-//    @ResponseStatus(HttpStatus.NO_CONTENT)
-//    public void delete(@PathVariable int id) {
-//        int userId = SecurityUtil.authUserId();
-//    //    log.info("delete meal {} for user {}", id, userId);
-//        repository.delete(id, userId);
-//    }
 
     @GetMapping
     public List<Vote> getAll() {
         int userId = SecurityUtil.authUserId();
-        //   log.info("getAll for user {}", userId);
         return voteRepository.getAll(userId);
     }
 
@@ -65,8 +55,6 @@ public class VoteRestController {
     public ResponseEntity<Vote> create(@RequestBody Vote vote) {
         int userId = SecurityUtil.authUserId();
         checkNew(vote);
-        //    log.info("create {} for user {}", meal, userId);
-
         Vote created = voteRepository.save(vote, userId);
 
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -75,15 +63,6 @@ public class VoteRestController {
 
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
-
-//    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-//    @ResponseStatus(value = HttpStatus.NO_CONTENT)
-//    public void update(@RequestBody Vote vote, @PathVariable int id) {
-//        int userId = SecurityUtil.authUserId();
-//        assureIdConsistent(vote, id);
-//        //    log.info("update {} for user {}", meal, userId);
-//        checkNotFoundWithId(repository.save(vote, userId), vote.id());
-//    }
 
     @PutMapping(value = "/change", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
@@ -98,7 +77,6 @@ public class VoteRestController {
         Restaurant rest = restRepository.get(restId);
         checkNotFoundWithId(rest, restId);
         vote.setRest(rest);
-        //    log.info("update {} for user {}", meal, userId);
         voteRepository.save(vote, userId);
     }
 }
