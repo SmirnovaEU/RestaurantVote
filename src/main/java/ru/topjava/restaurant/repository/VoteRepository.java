@@ -16,6 +16,9 @@ public interface VoteRepository {
     // null if vote do not belong to userId
     Vote get(int id, int userId);
 
+    // null if not found
+    Vote getByDate(LocalDate date, int userId);
+
     // ORDERED date desc
     List<Vote> getAll(int userId);
 

@@ -21,8 +21,8 @@ public class Dish extends AbstractNamedEntity {
     private Restaurant rest;
 
     @Column(name = "price", nullable = false)
-    @Range(min = 10, max = 10000)
-    private BigDecimal price;
+    @Range(min = 1000, max = 1000000)
+    private Integer price;
 
     public Dish() {
     }
@@ -49,11 +49,11 @@ public class Dish extends AbstractNamedEntity {
         this.rest = rest;
     }
 
-    public BigDecimal getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 

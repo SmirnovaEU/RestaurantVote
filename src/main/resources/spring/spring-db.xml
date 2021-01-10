@@ -4,15 +4,18 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:jdbc="http://www.springframework.org/schema/jdbc"
        xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
        http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
-       http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+       http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <jdbc:initialize-database data-source="dataSource" enabled="${database.init}">
-        <jdbc:script location="classpath:db/initDB_hsql.sql "/>
+        <jdbc:script location="classpath:db/initDB_hsql.sql"/>
         <jdbc:script encoding="utf-8" location="classpath:db/populateDB.sql"/>
     </jdbc:initialize-database>
+
+    <tx:annotation-driven/>
 
     <context:property-placeholder location="classpath:db/hsqldb.properties" system-properties-mode="OVERRIDE"/>
 
@@ -28,7 +31,7 @@
     <jpa:repositories base-package="ru.topjava.**.repository"/>
 
     <!--    <bean>-->
-<!--    <jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/topjava"/>-->
+<!--    <jee:jndi-lookup id="dataSource" jndi-name="java:comp/env/jdbc/restaurant"/>-->
     <context:property-placeholder location="classpath:db/tomcat.properties" system-properties-mode="OVERRIDE"/>
     <!--    </bean>-->
 
@@ -39,13 +42,11 @@
         <property name="jpaPropertyMap">
             <map>
                 <entry key="#{T(org.hibernate.cfg.AvailableSettings).FORMAT_SQL}" value="${hibernate.format_sql}"/>
-                <entry key="#{T(org.hibernate.cfg.AvailableSettings).USE_SQL_COMMENTS}"
-                       value="${hibernate.use_sql_comments}"/>
+                <entry key="#{T(org.hibernate.cfg.AvailableSettings).USE_SQL_COMMENTS}" value="${hibernate.use_sql_comments}"/>
                 <entry key="#{T(org.hibernate.cfg.AvailableSettings).JPA_PROXY_COMPLIANCE}" value="false"/>
 
-                <entry key="javax.persistence.validation.group.pre-persist"
-                       value="ru.javawebinar.topjava.View$Persist"/>
-                <entry key="javax.persistence.validation.group.pre-update" value="ru.javawebinar.topjava.View$Persist"/>
+<!--                <entry key="javax.persistence.validation.group.pre-persist" value="ru.topjava.restaurant.View$Persist"/>-->
+<!--                <entry key="javax.persistence.validation.group.pre-update" value="ru.topjava.restaurant.View$Persist"/>-->
 
             </map>
         </property>
@@ -56,8 +57,9 @@
         </property>
     </bean>
 
+
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager"
           p:entityManagerFactory-ref="entityManagerFactory"/>
 
-    <!--    <tx:annotation-driven/>-->
+
 </beans>

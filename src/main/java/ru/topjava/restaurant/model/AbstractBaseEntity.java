@@ -1,11 +1,15 @@
 package ru.topjava.restaurant.model;
 
+import org.hibernate.Hibernate;
+import org.springframework.data.domain.Persistable;
+import org.springframework.util.Assert;
+
 import javax.persistence.*;
 
 @MappedSuperclass
 // http://stackoverflow.com/questions/594597/hibernate-annotations-which-is-better-field-or-property-access
 @Access(AccessType.FIELD)
-public abstract class AbstractBaseEntity {
+public abstract class AbstractBaseEntity implements Persistable<Integer> {
     public static final int START_SEQ = 100000;
 
     @Id
@@ -28,6 +32,12 @@ public abstract class AbstractBaseEntity {
         return id;
     }
 
+    // doesn't work for hibernate lazy proxy
+    public int id() {
+        Assert.notNull(id, "Entity must have id");
+        return id;
+    }
+
     public boolean isNew() {
         return this.id == null;
     }
@@ -42,7 +52,7 @@ public abstract class AbstractBaseEntity {
         if (this == o) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (o == null || !getClass().equals(Hibernate.getClass(o))) {
             return false;
         }
         AbstractBaseEntity that = (AbstractBaseEntity) o;

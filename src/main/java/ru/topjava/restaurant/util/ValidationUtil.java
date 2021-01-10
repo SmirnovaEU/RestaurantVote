@@ -3,11 +3,19 @@ package ru.topjava.restaurant.util;
 import ru.topjava.restaurant.model.AbstractBaseEntity;
 import ru.topjava.restaurant.util.exception.NotFoundException;
 
+import java.time.LocalTime;
+
 public class ValidationUtil {
+    static final LocalTime STOP_VOTING_TIME = LocalTime.of(11, 0, 0);
 
     public static <T> T checkNotFoundWithId(T object, int id) {
         checkNotFoundWithId(object != null, id);
         return object;
+    }
+
+    public static void checkStopTime(LocalTime localTime) {
+
+
     }
 
     public static void checkNotFoundWithId(boolean found, int id) {
