@@ -1,11 +1,13 @@
 package ru.topjava.restaurant.repository.datajpa;
 
+import org.springframework.stereotype.Repository;
 import ru.topjava.restaurant.model.Dish;
 import ru.topjava.restaurant.repository.DishRepository;
 
 import java.time.LocalDate;
 import java.util.List;
 
+@Repository
 public class DataJpaDishRepository implements DishRepository {
 
     private final CrudDishRepository crudDishRepository;

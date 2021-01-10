@@ -15,36 +15,30 @@ public class AbstractUserController {
     private UserRepository repository;
 
     public List<User> getAll() {
-     //   log.info("getAll");
         return repository.getAll();
     }
 
     public User get(int id) {
-   //     log.info("get {}", id);
         return repository.get(id);
     }
 
     public User create(User user) {
-  //      log.info("create {}", user);
         checkNew(user);
         return repository.save(user);
     }
 
     public void delete(int id) {
-  //      log.info("delete {}", id);
         repository.delete(id);
     }
 
     public void update(User user, int id) {
-  //      log.info("update {} with id={}", user, id);
         assureIdConsistent(user, id);
         repository.save(user);
     }
 
     public User getByMail(String email) {
-  //      log.info("getByEmail {}", email);
         return repository.getByEmail(email);
     }
 
-    
+
 }

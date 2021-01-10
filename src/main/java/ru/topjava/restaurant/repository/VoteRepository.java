@@ -1,6 +1,5 @@
 package ru.topjava.restaurant.repository;
 
-import ru.topjava.restaurant.model.User;
 import ru.topjava.restaurant.model.Vote;
 
 import java.time.LocalDate;

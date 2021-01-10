@@ -64,9 +64,10 @@ public class VoteRestController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    @PutMapping(value = "/change", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/change")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void update(@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date, @RequestParam("restId") int restId) {
+    public void update(@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
+                       @RequestParam("restId") int restId) {
         LocalTime localTime = LocalTime.now();
         if (localTime.compareTo(STOP_VOTING_TIME) > 0) {
             return;
