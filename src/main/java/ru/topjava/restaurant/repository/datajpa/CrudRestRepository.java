@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.topjava.restaurant.model.Restaurant;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Transactional(readOnly = true)
 public interface CrudRestRepository extends JpaRepository<Restaurant, Integer> {
@@ -18,8 +19,17 @@ public interface CrudRestRepository extends JpaRepository<Restaurant, Integer> {
     int delete(@Param("id") int id);
 
     @EntityGraph(attributePaths = {"dishes"}, type = EntityGraph.EntityGraphType.LOAD)
-    @Query("SELECT r FROM Restaurant r JOIN FETCH Dish d WHERE r.id=?1 AND d.date=?2")
+    //@Query("SELECT r FROM Restaurant r JOIN FETCH Dish d WHERE r.id=?1 AND d.date=?2")
+    @Query("SELECT r FROM Restaurant r WHERE r.id=?1")
     Restaurant getWithDishesByDate(int id, LocalDate date);
+
+    @EntityGraph(attributePaths = {"dishes"}, type = EntityGraph.EntityGraphType.LOAD)
+    @Query("SELECT r FROM Restaurant r JOIN FETCH Dish d WHERE d.date=:date")
+    List<Restaurant> getAllWithDishesByDate(@Param("date") LocalDate date);
+
+    @EntityGraph(attributePaths = {"votes"}, type = EntityGraph.EntityGraphType.LOAD)
+    @Query("SELECT r FROM Restaurant r JOIN FETCH Vote v WHERE v.date=:date")
+    List<Restaurant> getAllWithVotesByDate(@Param("date") LocalDate date);
 
     @Query("SELECT r FROM Restaurant r WHERE r.id=?1")
     Restaurant getOne(int id);

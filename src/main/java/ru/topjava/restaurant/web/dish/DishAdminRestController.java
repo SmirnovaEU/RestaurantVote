@@ -17,9 +17,9 @@ import java.time.LocalDate;
 import static ru.topjava.restaurant.util.ValidationUtil.*;
 
 @RestController
-@RequestMapping(value = DishRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = DishAdminRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class DishAdminRestController {
-    static final String REST_URL = "/rest/profile/rests/{restId}/dishes";
+    static final String REST_URL = "/rest/admin/rests/{restId}/dishes";
 
     @Autowired
     private DishRepository dishRepository;

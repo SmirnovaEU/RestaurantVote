@@ -39,6 +39,16 @@ public class DataJpaRestRepository implements RestRepository {
     }
 
     @Override
+    public List<Restaurant> getAllWithDishesByDate(LocalDate date) {
+        return crudRepository.getAllWithDishesByDate(date);
+    }
+
+    @Override
+    public List<Restaurant> getAllWithVotesByDate(LocalDate date) {
+        return crudRepository.getAllWithVotesByDate(date);
+    }
+
+    @Override
     public Restaurant getWithDishesByDate(int id, LocalDate date) {
         return crudRepository.getWithDishesByDate(id, date);
     }
