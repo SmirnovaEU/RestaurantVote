@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.Assert;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.topjava.restaurant.model.Dish;
@@ -42,8 +41,8 @@ public class DishAdminRestController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Dish> createWithLocation(@RequestBody Dish dish,
-                                                   @PathVariable("restId") int restId) {
+    public ResponseEntity<Dish> create(@RequestBody Dish dish,
+                                       @PathVariable("restId") int restId) {
         checkNew(dish);
         Assert.notNull(dish, "dish must not be null");
         Dish created = dishRepository.save(dish, restId);

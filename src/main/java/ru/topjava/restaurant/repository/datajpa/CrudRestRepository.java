@@ -18,7 +18,6 @@ public interface CrudRestRepository extends JpaRepository<Restaurant, Integer> {
     @Query("DELETE FROM Restaurant r WHERE r.id=:id")
     int delete(@Param("id") int id);
 
-   // @EntityGraph(attributePaths = {"dishes"}, type = EntityGraph.EntityGraphType.LOAD)
     @Query("SELECT r FROM Restaurant r JOIN FETCH r.dishes d WHERE r.id=?1 AND d.date=?2")
     Restaurant getWithDishesByDate(int id, LocalDate date);
 
