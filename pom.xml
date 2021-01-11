@@ -10,7 +10,7 @@
 
     <version>1.0-SNAPSHOT</version>
 
-    <name>Restaurant votes</name>
+    <name>Voting system</name>
 
     <properties>
         <java.version>1.8</java.version>
