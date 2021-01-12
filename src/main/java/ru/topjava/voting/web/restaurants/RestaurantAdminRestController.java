@@ -48,4 +48,6 @@ public class RestaurantAdminRestController {
         checkNotFoundWithId(repository.save(rest), rest.id());
     }
 
+
+
 }

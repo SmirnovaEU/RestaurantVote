@@ -11,12 +11,10 @@ public class Restaurant extends AbstractNamedEntity {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "rest")
     @OrderBy("date DESC")
-    @JsonManagedReference
     private List<Dish> dishes;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "rest")
     @OrderBy("date DESC")
-    @JsonManagedReference
     private List<Vote> votes;
 
     public List<Dish> getDishes() {
