@@ -7,16 +7,21 @@ import ru.topjava.voting.web.user.AdminRestController;
 
 import java.util.Arrays;
 
+import static ru.topjava.voting.TestUtil.mockAuthorize;
+import static ru.topjava.voting.UserTestData.user;
+
 public class SpringMain {
     public static void main(String[] args) {
         try (GenericXmlApplicationContext appCtx = new GenericXmlApplicationContext()) {
-            appCtx.getEnvironment();
-            appCtx.load("spring/spring-app.xml", "spring/spring-db.xml");
+            appCtx.load("spring/inmemory.xml");
             appCtx.refresh();
 
             System.out.println("Bean definition names: " + Arrays.toString(appCtx.getBeanDefinitionNames()));
             AdminRestController adminUserController = appCtx.getBean(AdminRestController.class);
             adminUserController.create(new User(null, "userName", "email@mail.ru", "password", Role.ADMIN));
+            System.out.println();
+
+            mockAuthorize(user);
 
         }
     }

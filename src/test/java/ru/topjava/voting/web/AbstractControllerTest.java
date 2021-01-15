@@ -46,7 +46,7 @@ public abstract class AbstractControllerTest {
         mockMvc = MockMvcBuilders
                 .webAppContextSetup(webApplicationContext)
                 .addFilter(CHARACTER_ENCODING_FILTER)
-        //        .apply(springSecurity())
+                .apply(springSecurity())
                 .build();
     }
 
