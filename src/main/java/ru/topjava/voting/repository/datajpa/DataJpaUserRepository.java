@@ -16,9 +16,9 @@ import java.util.List;
 
 import static ru.topjava.voting.util.UserUtil.prepareToSave;
 
-@Repository //("userService")
+@Repository("userService")
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
-public class DataJpaUserRepository implements UserRepository {//, UserDetailsService {
+public class DataJpaUserRepository implements UserRepository , UserDetailsService {
     private static final Sort SORT_NAME_EMAIL = Sort.by(Sort.Direction.ASC, "name", "email");
 
     private final CrudUserRepository crudRepository;
@@ -59,12 +59,12 @@ public class DataJpaUserRepository implements UserRepository {//, UserDetailsSer
         return crudRepository.getWithVotes(id);
     }
 
-//    @Override
-//    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-//        User user = getByEmail(email.toLowerCase());
-//        if (user == null) {
-//            throw new UsernameNotFoundException("User " + email + " is not found");
-//        }
-//        return new AuthorizedUser(user);
-//    }
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = getByEmail(email.toLowerCase());
+        if (user == null) {
+            throw new UsernameNotFoundException("User " + email + " is not found");
+        }
+        return new AuthorizedUser(user);
+    }
 }

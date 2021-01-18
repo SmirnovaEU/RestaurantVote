@@ -1,7 +1,6 @@
 package ru.topjava.voting.model;
 
 import org.hibernate.Hibernate;
-import org.springframework.data.domain.Persistable;
 import org.springframework.util.Assert;
 import ru.topjava.voting.web.HasId;
 

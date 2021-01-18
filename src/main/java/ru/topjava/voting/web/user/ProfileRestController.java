@@ -19,11 +19,11 @@ import ru.topjava.voting.web.AuthorizedUser;
 import static ru.topjava.voting.util.ValidationUtil.assureIdConsistent;
 import static ru.topjava.voting.web.SecurityUtil.authUserId;
 
-@Service("userService")
-@Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
+//@Service("userService")
+//@Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 @RestController
 @RequestMapping(ProfileRestController.REST_URL)
-public class ProfileRestController extends AbstractUserController implements UserDetailsService {
+public class ProfileRestController extends AbstractUserController {// implements UserDetailsService {
     static final String REST_URL = "/rest/profile";
 
     @Autowired
@@ -42,18 +42,18 @@ public class ProfileRestController extends AbstractUserController implements Use
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestBody UserTo userTo) {//, @AuthenticationPrincipal AuthorizedUser authUser) {
-     //   assureIdConsistent(userTo, authUser.getId());
+    public void update(@RequestBody UserTo userTo, @AuthenticationPrincipal AuthorizedUser authUser) {
+        assureIdConsistent(userTo, authUser.getId());
         super.update(userTo);
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-
-        User user = repository.getByEmail(email.toLowerCase());
-        if (user == null) {
-            throw new UsernameNotFoundException("User " + email + " is not found");
-        }
-        return new AuthorizedUser(user);
-    }
+//    @Override
+//    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+//
+//        User user = repository.getByEmail(email.toLowerCase());
+//        if (user == null) {
+//            throw new UsernameNotFoundException("User " + email + " is not found");
+//        }
+//        return new AuthorizedUser(user);
+//    }
 }
