@@ -2,7 +2,7 @@ package ru.topjava.voting.to;
 
 import ru.topjava.voting.web.HasId;
 
-public class BaseTo implements HasId {
+public abstract class BaseTo implements HasId {
     protected Integer id;
 
     public BaseTo() {
@@ -14,11 +14,11 @@ public class BaseTo implements HasId {
 
     @Override
     public Integer getId() {
-        return null;
+        return id;
     }
 
     @Override
     public void setId(Integer id) {
-
+        this.id = id;
     }
 }
