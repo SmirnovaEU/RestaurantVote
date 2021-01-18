@@ -52,11 +52,11 @@ class AdminRestControllerTest extends AbstractControllerTest {
 
     @Test
     void delete() throws Exception {
-        perform(MockMvcRequestBuilders.delete(REST_URL + ADMIN_ID)
+        perform(MockMvcRequestBuilders.delete(REST_URL + USER_ID)
                 .with(userHttpBasic(admin)))
                 .andExpect(status().isNoContent())
                 .andDo(print());
-        assertThrows(NoSuchElementException.class, () -> userRepository.get(ADMIN_ID));
+        assertThrows(NoSuchElementException.class, () -> userRepository.get(USER_ID));
     }
 
     @Test
