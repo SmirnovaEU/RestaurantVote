@@ -22,6 +22,7 @@ public class UserTo extends BaseTo implements Serializable {
     private String password;
 
     public UserTo() {
+
     }
 
     public UserTo(Integer id, String name, String email, String password) {

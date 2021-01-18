@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,6 +16,7 @@ import ru.topjava.voting.repository.UserRepository;
 import ru.topjava.voting.to.UserTo;
 import ru.topjava.voting.web.AuthorizedUser;
 
+import static ru.topjava.voting.util.ValidationUtil.assureIdConsistent;
 import static ru.topjava.voting.web.SecurityUtil.authUserId;
 
 @Service("userService")
@@ -40,7 +42,8 @@ public class ProfileRestController extends AbstractUserController implements Use
 
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestBody UserTo userTo) {
+    public void update(@RequestBody UserTo userTo) {//, @AuthenticationPrincipal AuthorizedUser authUser) {
+     //   assureIdConsistent(userTo, authUser.getId());
         super.update(userTo);
     }
 
