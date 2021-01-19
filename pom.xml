@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ru.topjava</groupId>
-    <artifactId>restaurants</artifactId>
+    <artifactId>voting</artifactId>
     <packaging>war</packaging>
 
     <version>1.0-SNAPSHOT</version>
@@ -38,7 +38,7 @@
     </properties>
 
     <build>
-        <finalName>restaurants</finalName>
+        <finalName>voting</finalName>
         <defaultGoal>package</defaultGoal>
         <plugins>
             <plugin>
@@ -62,13 +62,13 @@
                         <containerId>tomcat9x</containerId>
                         <systemProperties>
                             <file.encoding>UTF-8</file.encoding>
-                            <spring.profiles.active>tomcat,datajpa</spring.profiles.active>
+
                         </systemProperties>
                         <dependencies>
                             <dependency>
                                 <groupId>org.hsqldb</groupId>
                                 <artifactId>hsqldb</artifactId>
-                                <version>2.3.4</version>
+<!--                                <version>2.3.4</version>-->
                             </dependency>
                         </dependencies>
                     </container>
@@ -83,8 +83,8 @@
                     </configuration>
                     <deployables>
                         <deployable>
-                            <groupId>ru.javawebinar</groupId>
-                            <artifactId>topjava</artifactId>
+                            <groupId>ru.topjava</groupId>
+                            <artifactId>voting</artifactId>
                             <type>war</type>
                             <properties>
                                 <context>${project.build.finalName}</context>
