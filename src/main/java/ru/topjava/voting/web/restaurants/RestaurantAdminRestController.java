@@ -12,10 +12,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.topjava.voting.model.Restaurant;
 import ru.topjava.voting.repository.RestRepository;
 
+import javax.validation.Valid;
 import java.net.URI;
 
-import static ru.topjava.voting.util.ValidationUtil.checkNew;
-import static ru.topjava.voting.util.ValidationUtil.checkNotFoundWithId;
+import static ru.topjava.voting.util.ValidationUtil.*;
 
 @RestController
 @RequestMapping(value = RestaurantAdminRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -34,7 +34,7 @@ public class RestaurantAdminRestController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Restaurant> create(@RequestBody Restaurant rest) {
+    public ResponseEntity<Restaurant> create(@Valid @RequestBody Restaurant rest) {
         checkNew(rest);
         Assert.notNull(rest, "restaurant must not be null");
         Restaurant created = repository.save(rest);
@@ -47,7 +47,8 @@ public class RestaurantAdminRestController {
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestBody Restaurant rest, @PathVariable int id) {
+    public void update(@Valid @RequestBody Restaurant rest, @PathVariable int id) {
+        assureIdConsistent(rest, id);
         Assert.notNull(rest, "Restaurant must not be null");
         log.info("update restaurant {}", id);
         checkNotFoundWithId(repository.save(rest), rest.id());

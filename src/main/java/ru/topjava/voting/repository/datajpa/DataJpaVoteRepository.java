@@ -1,6 +1,7 @@
 package ru.topjava.voting.repository.datajpa;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 import ru.topjava.voting.model.Vote;
 import ru.topjava.voting.repository.VoteRepository;
 
@@ -19,15 +20,18 @@ public class DataJpaVoteRepository implements VoteRepository {
     }
 
     @Override
+    @Transactional
     public Vote save(Vote vote, int userId) {
         if (!vote.isNew() && get(vote.getId(), userId) == null) {
             return null;
         }
         vote.setUser(crudUserRepository.getOne(userId));
+        vote.setDate(LocalDate.now());
         return crudVoteRepository.save(vote);
     }
 
     @Override
+    @Transactional
     public boolean delete(int id, int userId) {
         return crudVoteRepository.delete(id, userId) != 0;
     }

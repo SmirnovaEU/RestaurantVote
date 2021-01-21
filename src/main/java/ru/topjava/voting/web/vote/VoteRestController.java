@@ -15,6 +15,7 @@ import ru.topjava.voting.repository.RestRepository;
 import ru.topjava.voting.repository.VoteRepository;
 import ru.topjava.voting.web.SecurityUtil;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -58,9 +59,12 @@ public class VoteRestController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Vote> create(@RequestBody Vote vote) {
+    public ResponseEntity<Vote> create(@RequestParam("restId") int restId) {
         int userId = SecurityUtil.authUserId();
-        checkNew(vote);
+        LocalDate date = LocalDate.now();
+        Vote vote = new Vote(null, restRepository.get(restId), date);
+        //must be checked if there's already a vote for the current date
+        checkFound(getByDate(date) != null, "date = " + date);
         log.info("create vote {} for user {}", vote, userId);
         Vote created = voteRepository.save(vote, userId);
 
@@ -73,8 +77,8 @@ public class VoteRestController {
 
     @PutMapping(value = "/change")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    public void update(@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date,
-                       @RequestParam("restId") int restId) {
+    public void update(@RequestParam("restId") int restId) {
+        LocalDate date = LocalDate.now();
         LocalTime localTime = LocalTime.now();
         if (localTime.compareTo(STOP_VOTING_TIME) > 0) {
             return;

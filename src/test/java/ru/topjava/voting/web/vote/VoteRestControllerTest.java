@@ -51,6 +51,7 @@ class VoteRestControllerTest extends AbstractControllerTest {
     void create() throws Exception {
         Vote newVote = getNew();
         ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
+                .param("restId", Integer.toString(REST1_ID))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(newVote))
                 .with(userHttpBasic(user)));
@@ -66,7 +67,6 @@ class VoteRestControllerTest extends AbstractControllerTest {
     void update() throws Exception {
         Vote updated = getUpdated();
         perform(MockMvcRequestBuilders.put(REST_URL + "/change")
-                .param("date", vote1.getDate().toString())
                 .param("restId", Integer.toString(REST1_ID))
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(JsonUtil.writeValue(updated))

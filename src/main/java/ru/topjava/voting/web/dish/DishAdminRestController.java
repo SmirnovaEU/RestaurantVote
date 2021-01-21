@@ -12,6 +12,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.topjava.voting.model.Dish;
 import ru.topjava.voting.repository.DishRepository;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.time.LocalDate;
 
@@ -35,7 +36,7 @@ public class DishAdminRestController {
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestBody Dish dish, @PathVariable("id") int id,
+    public void update(@Valid @RequestBody Dish dish, @PathVariable("id") int id,
                        @PathVariable("restId") int restId) {
         assureIdConsistent(dish, id);
         Assert.notNull(dish, "dish must not be null");
@@ -46,7 +47,7 @@ public class DishAdminRestController {
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Dish> create(@RequestBody Dish dish,
+    public ResponseEntity<Dish> create(@Valid @RequestBody Dish dish,
                                        @PathVariable("restId") int restId) {
         checkNew(dish);
         Assert.notNull(dish, "dish must not be null");

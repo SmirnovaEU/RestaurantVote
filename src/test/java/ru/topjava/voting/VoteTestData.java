@@ -3,6 +3,7 @@ package ru.topjava.voting;
 import ru.topjava.voting.model.Restaurant;
 import ru.topjava.voting.model.Vote;
 
+import java.time.LocalDate;
 import java.time.Month;
 import java.util.List;
 
@@ -28,7 +29,7 @@ public class VoteTestData {
     public static final List<Vote> userVotes = List.of(vote5, vote2, vote1);
 
     public static Vote getNew() {
-        return new Vote(null, null, of(2020, Month.FEBRUARY, 28));
+        return new Vote(null, null, LocalDate.now());
     }
 
     public static Vote getUpdated() {

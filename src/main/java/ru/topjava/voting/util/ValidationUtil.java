@@ -32,6 +32,12 @@ public class ValidationUtil {
         }
     }
 
+    public static void checkFound(boolean found, String msg) {
+        if (found) {
+            throw new NotFoundException("Found entity with " + msg);
+        }
+    }
+
     public static void assureIdConsistent(HasId bean, int id) {
 //      conservative when you reply, but accept liberally (http://stackoverflow.com/a/32728226/548473)
         if (bean.isNew()) {
@@ -40,14 +46,4 @@ public class ValidationUtil {
             throw new IllegalArgumentException(bean + " must be with id=" + id);
         }
     }
-
-//    public static void assureIdConsistent(AbstractBaseEntity entity, int id) {
-////      conservative when you reply, but accept liberally (http://stackoverflow.com/a/32728226/548473)
-//        if (entity.isNew()) {
-//            entity.setId(id);
-//        } else if (entity.getId() != id) {
-//            throw new IllegalArgumentException(entity + " must be with id=" + id);
-//        }
-//    }
-
 }

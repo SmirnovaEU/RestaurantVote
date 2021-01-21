@@ -67,7 +67,7 @@ API doesn't contain any delete methods because users shouldn't delete their vote
     
     create(Vote vote) - create new vote for authorized user 
     
-    update(LocalDate date) - update authorized user's vote for date
+    update(LocalDate date) - update authorized user's vote for date. 
 
 #### DishAdminRestController
 This class contains rest API methods for administrators to creating and updating menu for restaurants.
