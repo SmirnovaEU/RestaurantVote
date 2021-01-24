@@ -1,5 +1,7 @@
 package ru.topjava.voting.repository.datajpa;
 
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.data.domain.Sort;
@@ -30,11 +32,13 @@ public class DataJpaUserRepository implements UserRepository, UserDetailsService
     }
 
     @Override
+    @CacheEvict(value = "users", allEntries = true)
     public User save(User user) {
         return crudRepository.save(prepareToSave(user, passwordEncoder));
     }
 
     @Override
+    @CacheEvict(value = "users", allEntries = true)
     public boolean delete(int id) {
         return crudRepository.delete(id) != 0;
     }
@@ -50,6 +54,7 @@ public class DataJpaUserRepository implements UserRepository, UserDetailsService
     }
 
     @Override
+    @Cacheable("users")
     public List<User> getAll() {
         return crudRepository.findAll(SORT_NAME_EMAIL);
     }
