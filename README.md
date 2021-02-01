@@ -13,19 +13,8 @@ Program for deciding where to have lunch.
 
 Each restaurant provides a new menu each day.
 
-### Business model description
-
-Business model of voting includes 4 classes:
-        
-        User
-        Restaurant
-        Dish
-        Vote
-        
-There isn't any special menu-entities, the system use a list of dish for each restaurant by date instead.  
-Between Vote and User entities is a one-to-many relationship. 
-Between Vote and Restaurant entities is a one-to-many relationship. 
-Between Dish and Restaurant entities is a one-to-many relationship.  
+#####Use console command to start application with cargo
+mvn clean package -DskipTests=true org.codehaus.cargo:cargo-maven2-plugin:1.8.2:run
 
 ### API Documentation
 
@@ -37,6 +26,7 @@ This class contains rest API methods for administrators to manage user's profile
     get(int id) - get user by id
     
     getWithVotes(int id) - get user with votes by id
+    `curl -s -X GET http://localhost:8080/restvote/rest/admin/users/100000/with-votes --user admin@gmail.com:admin`
     
     createWithLocation(User user) - create new user
     
@@ -60,12 +50,14 @@ This class contains API for users to manage their votes.
 API doesn't contain any delete methods because users shouldn't delete their votes.
 
     getAll() - gets all votes of authorized user
+        `curl -s -X GET http://localhost:8080/restvote/rest/profile/votes --user user@yandex.ru:password`
     
     getByDate(LocalDate date) - gets authorized user's vote for the date
     
     getTodayVote() - gets authorized user's vote for the current date
     
     create(Vote vote) - create new vote for authorized user 
+        `curl -s -X POST -d '{"rest":{"id":100002,"name":"Buusa"},"date":"2021-01-30"}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/restvote/rest/profile/votes?restId=100002' --user user@yandex.ru:password`
     
     update(LocalDate date) - update authorized user's vote for date. 
 
@@ -73,7 +65,7 @@ API doesn't contain any delete methods because users shouldn't delete their vote
 This class contains rest API methods for administrators to creating and updating menu for restaurants.
       
      create(Dish dish, int restId)  - method create a new dish for a restaurant with id = restId      
-        `curl  -s -X POST -d '{"name": "createdDish", "date": "2021-01-15", "rest": null, "price": 200500}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/restvote/rest/admin/rests/100003/dishes`
+        `curl  -s -X POST -d '{"name": "createdDish", "date": "2021-01-15", "rest": null, "price": 200500}' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/restvote/rest/admin/rests/100003/dishes --user admin@gmail.com:admin`
        
      delete(int id, int restId) - delete dish with id for restaurant restId
       
@@ -107,4 +99,4 @@ This class contains rest API methods for users to study restaurant's menus and t
      getWithDishesByDate(int id, LocalDate date) - get restaurant by id with dishes by date
      
      getAllWithVotesByDate(LocalDate date) - get all restaurants with votes by date 
-        `curl -s -X GET http://localhost:8080/restvote/rest/profile/rests/with-votes?date=2020-01-31`
+        `curl -s -X GET http://localhost:8080/restvote/rest/profile/rests/with-votes?date=2020-01-31 --user user@yandex.ru:password`
