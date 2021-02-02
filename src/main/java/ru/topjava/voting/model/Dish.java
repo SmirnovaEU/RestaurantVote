@@ -1,8 +1,6 @@
 package ru.topjava.voting.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
@@ -10,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "dishes", uniqueConstraints = {@UniqueConstraint(columnNames = "id", name = "dishes_unique_idx")})
+@Table(name = "dishes", uniqueConstraints = {@UniqueConstraint(columnNames = "id", name = "dish_rest_date_idx")})
 public class Dish extends AbstractNamedEntity {
 
     @Column(name = "date", nullable = false)
@@ -19,10 +17,9 @@ public class Dish extends AbstractNamedEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rest_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonBackReference
     @NotNull
-    private Restaurant rest;
+    private Restaurant restaurant;
 
     @Column(name = "price", nullable = false)
     @Range(min = 1000, max = 1000000)
@@ -31,10 +28,10 @@ public class Dish extends AbstractNamedEntity {
     public Dish() {
     }
 
-    public Dish(Integer id, String name, LocalDate date, Restaurant rest) {
+    public Dish(Integer id, String name, LocalDate date, Restaurant restaurant) {
         super(id, name);
         this.date = date;
-        this.rest = rest;
+        this.restaurant = restaurant;
     }
 
     public LocalDate getDate() {
@@ -45,12 +42,12 @@ public class Dish extends AbstractNamedEntity {
         this.date = date;
     }
 
-    public Restaurant getRest() {
-        return rest;
+    public Restaurant getRestaurant() {
+        return restaurant;
     }
 
-    public void setRest(Restaurant rest) {
-        this.rest = rest;
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
 
     public Integer getPrice() {
@@ -67,7 +64,6 @@ public class Dish extends AbstractNamedEntity {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", date=" + date +
-                ", rest=" + rest +
                 ", price=" + price +
                 '}';
     }

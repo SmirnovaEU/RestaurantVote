@@ -88,7 +88,7 @@ public class VoteRestController {
         checkNotFound(vote, "date = " + date);
         Restaurant rest = restRepository.get(restId);
         checkNotFoundWithId(rest, restId);
-        vote.setRest(rest);
+        vote.setRestaurant(rest);
         log.info("update vote for date {} for user {}", date, userId);
         voteRepository.save(vote, userId);
     }

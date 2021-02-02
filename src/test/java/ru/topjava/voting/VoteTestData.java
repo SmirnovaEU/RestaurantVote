@@ -11,7 +11,7 @@ import static java.time.LocalDate.of;
 import static ru.topjava.voting.model.AbstractBaseEntity.START_SEQ;
 
 public class VoteTestData {
-    public static final TestMatcher<Vote> VOTE_MATCHER = TestMatcher.usingIgnoringFieldsComparator(Vote.class, "user", "rest");
+    public static final TestMatcher<Vote> VOTE_MATCHER = TestMatcher.usingIgnoringFieldsComparator(Vote.class, "user", "restaurant");
 
     public static final int VOTE1_ID = START_SEQ + 5;
     public static final int REST1_ID = START_SEQ + 2;

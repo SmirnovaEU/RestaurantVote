@@ -10,13 +10,13 @@ public class VoteTo {
     private LocalDate date;
     private LocalTime time;
     private User user;
-    private Restaurant rest;
+    private Restaurant restaurant;
 
-    public VoteTo(LocalDate date, LocalTime time, User user, Restaurant rest) {
+    public VoteTo(LocalDate date, LocalTime time, User user, Restaurant restaurant) {
         this.date = date;
         this.time = time;
         this.user = user;
-        this.rest = rest;
+        this.restaurant= restaurant;
     }
 
     public LocalDate getDate() {
@@ -44,11 +44,11 @@ public class VoteTo {
     }
 
     public Restaurant getRest() {
-        return rest;
+        return restaurant;
     }
 
-    public void setRest(Restaurant rest) {
-        this.rest = rest;
+    public void setRest(Restaurant restaurant) {
+        this.restaurant= restaurant;
     }
 
     @Override
@@ -57,7 +57,7 @@ public class VoteTo {
                 "date=" + date +
                 ", time=" + time +
                 ", user=" + user +
-                ", rest=" + rest +
+                ", restaurant=" + restaurant+
                 '}';
     }
 }

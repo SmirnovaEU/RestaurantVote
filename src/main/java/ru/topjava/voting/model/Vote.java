@@ -2,8 +2,6 @@ package ru.topjava.voting.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -15,16 +13,14 @@ public class Vote extends AbstractBaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonBackReference
- //   @JsonIgnore
+    //   @JsonIgnore
     private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rest_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    private Restaurant rest;
+    private Restaurant restaurant;
 
     @Column(name = "date", nullable = false)
     @NotNull
@@ -34,9 +30,9 @@ public class Vote extends AbstractBaseEntity {
 
     }
 
-    public Vote(Integer id, Restaurant rest, LocalDate date) {
+    public Vote(Integer id, Restaurant restaurant, LocalDate date) {
         super(id);
-        this.rest = rest;
+        this.restaurant = restaurant;
         this.date = date;
     }
 
@@ -48,12 +44,12 @@ public class Vote extends AbstractBaseEntity {
         this.user = user;
     }
 
-    public Restaurant getRest() {
-        return rest;
+    public Restaurant getRestaurant() {
+        return restaurant;
     }
 
-    public void setRest(Restaurant rest) {
-        this.rest = rest;
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
 
     public LocalDate getDate() {
@@ -68,8 +64,8 @@ public class Vote extends AbstractBaseEntity {
     public String toString() {
         return "Vote{" +
                 "id=" + id +
-                ", user=" + user +
-                ", rest=" + rest +
+                //               ", user=" + user +
+                //               ", rest=" + rest +
                 ", date=" + date +
                 '}';
     }

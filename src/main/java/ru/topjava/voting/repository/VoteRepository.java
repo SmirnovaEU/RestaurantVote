@@ -21,7 +21,4 @@ public interface VoteRepository {
     // ORDERED date desc
     List<Vote> getAll(int userId);
 
-    default Vote getWithUser(int id, int userId) {
-        throw new UnsupportedOperationException();
-    }
 }

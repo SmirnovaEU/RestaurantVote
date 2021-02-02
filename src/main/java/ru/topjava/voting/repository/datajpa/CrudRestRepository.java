@@ -28,7 +28,4 @@ public interface CrudRestRepository extends JpaRepository<Restaurant, Integer> {
     @EntityGraph(attributePaths = {"votes"}, type = EntityGraph.EntityGraphType.LOAD)
     @Query("SELECT r FROM Restaurant r JOIN FETCH r.votes v WHERE v.date=:date")
     List<Restaurant> getAllWithVotesByDate(@Param("date") LocalDate date);
-
-    @Query("SELECT r FROM Restaurant r WHERE r.id=?1")
-    Restaurant getOne(int id);
 }

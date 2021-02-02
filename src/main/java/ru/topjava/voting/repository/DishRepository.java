@@ -18,7 +18,4 @@ public interface DishRepository {
     // ORDERED BY name
     List<Dish> getAllByDate(int restId, LocalDate date);
 
-    default Dish getWithRest(int id, int restId) {
-        throw new UnsupportedOperationException();
-    }
 }

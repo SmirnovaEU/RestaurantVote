@@ -53,8 +53,4 @@ public class DataJpaVoteRepository implements VoteRepository {
         return crudVoteRepository.getAll(userId);
     }
 
-    @Override
-    public Vote getWithUser(int id, int userId) {
-        return crudVoteRepository.getWithUser(id, userId);
-    }
 }

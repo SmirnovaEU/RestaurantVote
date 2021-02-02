@@ -23,7 +23,7 @@ public class DataJpaDishRepository implements DishRepository {
         if (!dish.isNew() && get(dish.getId(), restId) == null) {
             return null;
         }
-        dish.setRest(crudRestRepository.getOne(restId));
+        dish.setRestaurant(crudRestRepository.getOne(restId));
         return crudDishRepository.save(dish);
     }
 
@@ -35,7 +35,7 @@ public class DataJpaDishRepository implements DishRepository {
     @Override
     public Dish get(int id, int restId) {
         return crudDishRepository.findById(id)
-                .filter(dish -> dish.getRest().getId() == restId)
+                .filter(dish -> dish.getRestaurant().getId() == restId)
                 .orElseThrow();
     }
 
@@ -44,8 +44,4 @@ public class DataJpaDishRepository implements DishRepository {
         return crudDishRepository.getAllByDate(restId, date);
     }
 
-    @Override
-    public Dish getWithRest(int id, int restId) {
-        return crudDishRepository.getWithRest(id, restId);
-    }
 }
