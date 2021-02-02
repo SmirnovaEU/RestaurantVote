@@ -7,6 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.topjava.voting.model.Restaurant;
@@ -58,13 +59,14 @@ public class VoteRestController {
         return voteRepository.getByDate(currentDate, userId);
     }
 
+    @Transactional
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Vote> create(@RequestParam("restId") int restId) {
         int userId = SecurityUtil.authUserId();
         LocalDate date = LocalDate.now();
         Vote vote = new Vote(null, restRepository.get(restId), date);
         //must be checked if there's already a vote for the current date
-        checkFound(getByDate(date) != null, "date = " + date);
+        checkFound(voteRepository.getByDate(date, userId) != null, "date = " + date);
         log.info("create vote {} for user {}", vote, userId);
         Vote created = voteRepository.save(vote, userId);
 
@@ -75,12 +77,13 @@ public class VoteRestController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
+    @Transactional
     @PutMapping(value = "/change")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
     public void update(@RequestParam("restId") int restId) {
         LocalDate date = LocalDate.now();
         LocalTime localTime = LocalTime.now();
-        if (localTime.compareTo(STOP_VOTING_TIME) > 0) {
+        if (localTime.isAfter(STOP_VOTING_TIME)) {
             return;
         }
         int userId = SecurityUtil.authUserId();

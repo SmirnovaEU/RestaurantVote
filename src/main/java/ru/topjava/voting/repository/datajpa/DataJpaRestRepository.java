@@ -21,13 +21,13 @@ public class DataJpaRestRepository implements RestRepository {
     }
 
     @Override
-    @CacheEvict(value = "users", allEntries = true)
+    @CacheEvict(value = "restaurants", allEntries = true)
     public Restaurant save(Restaurant restaurant) {
         return crudRepository.save(restaurant);
     }
 
     @Override
-    @CacheEvict(value = "users", allEntries = true)
+    @CacheEvict(value = "restaurants", allEntries = true)
     public boolean delete(int id) {
         return crudRepository.delete(id) != 0;
     }
@@ -38,13 +38,13 @@ public class DataJpaRestRepository implements RestRepository {
     }
 
     @Override
-    @Cacheable("users")
+    @Cacheable("restaurants")
     public List<Restaurant> getAll() {
         return crudRepository.findAll(SORT_NAME);
     }
 
     @Override
-    @Cacheable("users")
+    @Cacheable("restaurants")
     public List<Restaurant> getAllWithDishesByDate(LocalDate date) {
         return crudRepository.getAllWithDishesByDate(date);
     }
@@ -55,6 +55,7 @@ public class DataJpaRestRepository implements RestRepository {
     }
 
     @Override
+    @Cacheable("restaurants")
     public Restaurant getWithDishesByDate(int id, LocalDate date) {
         return crudRepository.getWithDishesByDate(id, date);
     }
