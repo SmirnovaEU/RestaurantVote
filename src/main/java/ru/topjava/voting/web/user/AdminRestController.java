@@ -1,5 +1,6 @@
 package ru.topjava.voting.web.user;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import ru.topjava.voting.model.User;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.List;
 
 @RestController
@@ -30,8 +32,8 @@ public class AdminRestController extends AbstractUserController {
     }
 
     @GetMapping("/{id}/with-votes")
-    public User getWithVotes(@PathVariable int id) {
-        return super.getWithVotes(id);
+    public User getWithVotesByDate(@PathVariable int id, @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        return super.getWithVotesByDate(id, date);
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)

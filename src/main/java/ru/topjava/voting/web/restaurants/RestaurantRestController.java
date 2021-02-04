@@ -48,9 +48,4 @@ public class RestaurantRestController {
         return checkNotFoundWithId(repository.getWithDishesByDate(id, date), id);
     }
 
-    @GetMapping("/with-votes")
-    public List<Restaurant> getAllWithVotesByDate(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
-        log.info("get all restaurants with votes by date {}", date);
-        return repository.getAllWithVotesByDate(date);
-    }
 }

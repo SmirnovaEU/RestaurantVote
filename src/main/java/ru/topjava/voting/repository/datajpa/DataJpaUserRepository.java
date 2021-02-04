@@ -14,6 +14,7 @@ import ru.topjava.voting.model.User;
 import ru.topjava.voting.repository.UserRepository;
 import ru.topjava.voting.web.AuthorizedUser;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static ru.topjava.voting.util.UserUtil.prepareToSave;
@@ -57,8 +58,8 @@ public class DataJpaUserRepository implements UserRepository, UserDetailsService
     }
 
     @Override
-    public User getWithVotes(int id) {
-        return crudRepository.getWithVotes(id);
+    public User getWithVotesByDate(int id, LocalDate date) {
+        return crudRepository.getWithVotes(id, date);
     }
 
     @Override

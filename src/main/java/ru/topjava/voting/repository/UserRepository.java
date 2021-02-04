@@ -2,6 +2,7 @@ package ru.topjava.voting.repository;
 
 import ru.topjava.voting.model.User;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface UserRepository {
@@ -19,5 +20,5 @@ public interface UserRepository {
 
     List<User> getAll();
 
-    User getWithVotes(int id);
+    User getWithVotesByDate(int id, LocalDate date);
 }

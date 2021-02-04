@@ -53,4 +53,10 @@ public class DataJpaVoteRepository implements VoteRepository {
         return crudVoteRepository.getAll(userId);
     }
 
+    @Override
+    public List<Object[]> getAllNumberOfVotesByDate(LocalDate date) {
+        return crudVoteRepository.getAllNumberOfVotesByDate(date);
+    }
+
+
 }

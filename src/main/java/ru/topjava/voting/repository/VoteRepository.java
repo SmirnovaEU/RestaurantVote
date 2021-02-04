@@ -21,4 +21,6 @@ public interface VoteRepository {
     // ORDERED date desc
     List<Vote> getAll(int userId);
 
+    List<Object[]> getAllNumberOfVotesByDate(LocalDate date);
+
 }

@@ -16,7 +16,6 @@ import ru.topjava.voting.repository.RestRepository;
 import ru.topjava.voting.repository.VoteRepository;
 import ru.topjava.voting.web.SecurityUtil;
 
-import javax.validation.Valid;
 import java.net.URI;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -49,6 +48,12 @@ public class VoteRestController {
         int userId = SecurityUtil.authUserId();
         log.info("get all votes for user {}", userId);
         return voteRepository.getAll(userId);
+    }
+
+    @GetMapping("/number-by-date")
+    public List<Object[]> getAllNumberOfVotesByDate(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
+        log.info("get number of votes for all restaurants by {}", date);
+        return voteRepository.getAllNumberOfVotesByDate(date);
     }
 
     @GetMapping("/today")

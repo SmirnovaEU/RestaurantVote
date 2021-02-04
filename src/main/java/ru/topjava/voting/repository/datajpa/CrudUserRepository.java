@@ -8,6 +8,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 import ru.topjava.voting.model.User;
 
+import java.time.LocalDate;
+
 @Transactional(readOnly = true)
 public interface CrudUserRepository extends JpaRepository<User, Integer> {
     @Transactional
@@ -19,7 +21,7 @@ public interface CrudUserRepository extends JpaRepository<User, Integer> {
 
     //    https://stackoverflow.com/a/46013654/548473
     @EntityGraph(attributePaths = {"votes"}, type = EntityGraph.EntityGraphType.LOAD)
-    @Query("SELECT u FROM User u WHERE u.id=?1")
-    User getWithVotes(int id);
+    @Query("SELECT u FROM User u JOIN FETCH u.votes v WHERE u.id=?1 AND v.date=?2")
+    User getWithVotes(int id, LocalDate date);
 
 }

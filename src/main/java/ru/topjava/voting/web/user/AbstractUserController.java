@@ -9,6 +9,7 @@ import ru.topjava.voting.repository.UserRepository;
 import ru.topjava.voting.to.UserTo;
 import ru.topjava.voting.util.UserUtil;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static ru.topjava.voting.util.ValidationUtil.*;
@@ -29,9 +30,9 @@ public class AbstractUserController {
         return repository.get(id);
     }
 
-    public User getWithVotes(int id) {
-        log.info("get {} with votes", id);
-        return checkNotFoundWithId(repository.getWithVotes(id), id);
+    public User getWithVotesByDate(int id, LocalDate date) {
+        log.info("get {} with votes by date {}", id, date);
+        return checkNotFoundWithId(repository.getWithVotesByDate(id, date), id);
     }
 
     @Transactional

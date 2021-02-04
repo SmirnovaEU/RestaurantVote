@@ -17,15 +17,8 @@ public interface RestRepository {
 
     List<Restaurant> getAll();
 
-    default Restaurant getWithDishesByDate(int id, LocalDate date) {
-        throw new UnsupportedOperationException();
-    }
+    Restaurant getWithDishesByDate(int id, LocalDate date);
 
-    default List<Restaurant> getAllWithDishesByDate(LocalDate date) {
-        throw new UnsupportedOperationException();
-    }
+    List<Restaurant> getAllWithDishesByDate(LocalDate date);
 
-    default List<Restaurant> getAllWithVotesByDate(LocalDate date) {
-        throw new UnsupportedOperationException();
-    }
 }

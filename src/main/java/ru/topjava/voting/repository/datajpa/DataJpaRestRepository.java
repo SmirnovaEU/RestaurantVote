@@ -50,11 +50,6 @@ public class DataJpaRestRepository implements RestRepository {
     }
 
     @Override
-    public List<Restaurant> getAllWithVotesByDate(LocalDate date) {
-        return crudRepository.getAllWithVotesByDate(date);
-    }
-
-    @Override
     @Cacheable("restaurants")
     public Restaurant getWithDishesByDate(int id, LocalDate date) {
         return crudRepository.getWithDishesByDate(id, date);
