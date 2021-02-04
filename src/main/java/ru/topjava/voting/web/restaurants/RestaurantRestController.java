@@ -18,7 +18,7 @@ import static ru.topjava.voting.util.ValidationUtil.checkNotFoundWithId;
 @RequestMapping(value = RestaurantRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class RestaurantRestController {
     private static final Logger log = LoggerFactory.getLogger(RestaurantRestController.class);
-    static final String REST_URL = "/rest/profile/rests";
+    static final String REST_URL = "/rest/profile/restaurants";
 
     @Autowired
     protected RestRepository repository;

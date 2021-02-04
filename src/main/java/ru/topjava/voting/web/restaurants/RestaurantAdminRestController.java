@@ -21,7 +21,7 @@ import static ru.topjava.voting.util.ValidationUtil.*;
 @RequestMapping(value = RestaurantAdminRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class RestaurantAdminRestController {
     private static final Logger log = LoggerFactory.getLogger(RestaurantAdminRestController.class);
-    static final String REST_URL = "/rest/admin/rests";
+    static final String REST_URL = "/rest/admin/restaurants";
 
     @Autowired
     protected RestRepository repository;
