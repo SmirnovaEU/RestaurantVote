@@ -22,6 +22,6 @@ public interface CrudUserRepository extends JpaRepository<User, Integer> {
     //    https://stackoverflow.com/a/46013654/548473
     @EntityGraph(attributePaths = {"votes"}, type = EntityGraph.EntityGraphType.LOAD)
     @Query("SELECT u FROM User u JOIN FETCH u.votes v WHERE u.id=?1 AND v.date=?2")
-    User getWithVotes(int id, LocalDate date);
+    User getWithVotesByDate(int id, LocalDate date);
 
 }

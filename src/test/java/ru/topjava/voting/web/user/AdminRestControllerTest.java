@@ -8,7 +8,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.topjava.voting.TestUtil;
 import ru.topjava.voting.UserTestData;
 import ru.topjava.voting.model.User;
-import ru.topjava.voting.repository.UserRepository;
+import ru.topjava.voting.repository.datajpa.CrudUserRepository;
 import ru.topjava.voting.util.exception.NotFoundException;
 import ru.topjava.voting.web.AbstractControllerTest;
 import ru.topjava.voting.web.json.JsonUtil;
@@ -25,7 +25,7 @@ class AdminRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = AdminRestController.REST_URL + '/';
 
     @Autowired
-    private UserRepository userRepository;
+    private CrudUserRepository userRepository;
 
     @Test
     void get() throws Exception {
@@ -55,7 +55,7 @@ class AdminRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(admin)))
                 .andExpect(status().isNoContent())
                 .andDo(print());
-        assertThrows(NotFoundException.class, () -> userRepository.get(USER_ID));
+        assertThrows(NotFoundException.class, () -> getUser(USER_ID));
     }
 
     @Test
@@ -67,7 +67,7 @@ class AdminRestControllerTest extends AbstractControllerTest {
                 .content(JsonUtil.writeValue(updated)))
                 .andExpect(status().isNoContent());
 
-        USER_MATCHER.assertMatch(userRepository.get(USER_ID), updated);
+        USER_MATCHER.assertMatch(getUser(USER_ID), updated);
     }
 
     @Test
@@ -83,7 +83,7 @@ class AdminRestControllerTest extends AbstractControllerTest {
         int newId = created.id();
         newUser.setId(newId);
         USER_MATCHER.assertMatch(created, newUser);
-        USER_MATCHER.assertMatch(userRepository.get(newId), newUser);
+        USER_MATCHER.assertMatch(getUser(newId), newUser);
     }
 
     @Test
@@ -93,5 +93,9 @@ class AdminRestControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(USER_MATCHER.contentJson(admin, user));
+    }
+
+    private User getUser(int id) {
+        return userRepository.findById(id).orElseThrow(() -> new NotFoundException("There is no such user"));
     }
 }
