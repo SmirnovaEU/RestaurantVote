@@ -10,7 +10,7 @@ import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.topjava.voting.model.Restaurant;
-import ru.topjava.voting.repository.RestRepository;
+import ru.topjava.voting.repository.datajpa.CrudRestaurantRepository;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -24,7 +24,7 @@ public class RestaurantAdminRestController {
     static final String REST_URL = "/rest/admin/restaurants";
 
     @Autowired
-    protected RestRepository repository;
+    protected CrudRestaurantRepository repository;
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -53,7 +53,5 @@ public class RestaurantAdminRestController {
         log.info("update restaurant {}", id);
         checkNotFoundWithId(repository.save(rest), rest.id());
     }
-
-
 
 }

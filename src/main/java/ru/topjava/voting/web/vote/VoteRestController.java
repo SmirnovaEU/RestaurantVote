@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.topjava.voting.model.Restaurant;
 import ru.topjava.voting.model.Vote;
-import ru.topjava.voting.repository.RestRepository;
+import ru.topjava.voting.repository.datajpa.CrudRestaurantRepository;
 import ru.topjava.voting.repository.datajpa.CrudUserRepository;
 import ru.topjava.voting.repository.datajpa.CrudVoteRepository;
 import ru.topjava.voting.util.exception.NotFoundException;
@@ -39,7 +39,7 @@ public class VoteRestController {
     private CrudUserRepository userRepository;
 
     @Autowired
-    private RestRepository restRepository;
+    private CrudRestaurantRepository restRepository;
 
     @GetMapping("/by")
     public Vote getByDate(@RequestParam("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate date) {
@@ -74,7 +74,7 @@ public class VoteRestController {
     public ResponseEntity<Vote> create(@RequestParam("restId") int restId) {
         int userId = SecurityUtil.authUserId();
         LocalDate date = LocalDate.now();
-        Vote vote = new Vote(null, restRepository.get(restId), date);
+        Vote vote = new Vote(null, getRestaurant(restId), date);
         //must be checked if there's already a vote for the current date
         checkFound(voteRepository.getByDate(date, userId) != null, "date = " + date);
         log.info("create vote {} for user {}", vote, userId);
@@ -99,19 +99,24 @@ public class VoteRestController {
         int userId = SecurityUtil.authUserId();
         Vote vote = getByDate(date);
         checkNotFound(vote, "date = " + date);
-        Restaurant rest = restRepository.get(restId);
-        checkNotFoundWithId(rest, restId);
-        vote.setRestaurant(rest);
+        Restaurant restaurant = getRestaurant(restId);
+        checkNotFoundWithId(restaurant, restId);
+        vote.setRestaurant(restaurant);
         log.info("update vote for date {} for user {}", date, userId);
         save(vote, userId);
     }
 
-    public Vote save(Vote vote, int userId) {
+    private Vote save(Vote vote, int userId) {
         if (!vote.isNew() && voteRepository.get(vote.getId(), userId) == null) {
             return null;
         }
         vote.setUser(userRepository.getOne(userId));
         vote.setDate(LocalDate.now());
         return voteRepository.save(vote);
+    }
+
+    private Restaurant getRestaurant(int restId) {
+        return restRepository.findById(restId)
+                .orElseThrow(() -> new NotFoundException("There is no such restaurant"));
     }
 }

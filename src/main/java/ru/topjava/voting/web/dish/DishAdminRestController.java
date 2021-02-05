@@ -63,7 +63,7 @@ public class DishAdminRestController {
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
-    public Dish save(Dish dish, int restId) {
+    private Dish save(Dish dish, int restId) {
         if (!dish.isNew() && dishRepository.get(dish.getId(), restId) == null) {
             return null;
         }
