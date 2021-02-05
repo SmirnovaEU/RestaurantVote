@@ -4,6 +4,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.topjava.voting.model.User;
@@ -18,6 +19,9 @@ import java.util.List;
 public class AdminRestController extends AbstractUserController {
 
     static final String REST_URL = "/rest/admin/users";
+
+    public AdminRestController() {
+    }
 
     @Override
     @GetMapping

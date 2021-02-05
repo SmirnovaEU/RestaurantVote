@@ -2,7 +2,12 @@ package ru.topjava.voting.web.user;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.topjava.voting.TestUtil;
@@ -11,6 +16,7 @@ import ru.topjava.voting.model.User;
 import ru.topjava.voting.repository.datajpa.CrudUserRepository;
 import ru.topjava.voting.util.exception.NotFoundException;
 import ru.topjava.voting.web.AbstractControllerTest;
+import ru.topjava.voting.web.AuthorizedUser;
 import ru.topjava.voting.web.json.JsonUtil;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -20,7 +26,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static ru.topjava.voting.TestUtil.userHttpBasic;
 import static ru.topjava.voting.UserTestData.*;
 
-class AdminRestControllerTest extends AbstractControllerTest {
+@Service("userService")
+@Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
+class AdminRestControllerTest extends AbstractControllerTest implements UserDetailsService {
 
     private static final String REST_URL = AdminRestController.REST_URL + '/';
 
@@ -97,5 +105,14 @@ class AdminRestControllerTest extends AbstractControllerTest {
 
     private User getUser(int id) {
         return userRepository.findById(id).orElseThrow(() -> new NotFoundException("There is no such user"));
+    }
+
+    @Override
+    public AuthorizedUser loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.getByEmail(email.toLowerCase());
+        if (user == null) {
+            throw new UsernameNotFoundException("User " + email + " is not found");
+        }
+        return new AuthorizedUser(user);
     }
 }

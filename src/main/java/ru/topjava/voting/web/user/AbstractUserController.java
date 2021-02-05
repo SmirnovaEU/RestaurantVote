@@ -3,20 +3,27 @@ package ru.topjava.voting.web.user;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.topjava.voting.model.User;
 import ru.topjava.voting.repository.datajpa.CrudUserRepository;
 import ru.topjava.voting.to.UserTo;
 import ru.topjava.voting.util.UserUtil;
 import ru.topjava.voting.util.exception.NotFoundException;
+import ru.topjava.voting.web.AuthorizedUser;
 
 import java.time.LocalDate;
 import java.util.List;
 
 import static ru.topjava.voting.util.UserUtil.prepareToSave;
 import static ru.topjava.voting.util.ValidationUtil.*;
+
 
 public class AbstractUserController {
     private static final Logger log = LoggerFactory.getLogger(AbstractUserController.class);
@@ -29,6 +36,7 @@ public class AbstractUserController {
     private CrudUserRepository repository;
 
     public AbstractUserController() {
+
     }
 
     public List<User> getAll() {
@@ -78,9 +86,5 @@ public class AbstractUserController {
         log.info("getByEmail {}", email);
         return repository.getByEmail(email);
     }
-
-//    User get(int id) {
-//        return repository.findById(id).orElseThrow(() -> new NotFoundException("There is no such user"));
-//    }
 
 }

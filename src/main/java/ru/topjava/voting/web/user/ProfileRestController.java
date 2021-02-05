@@ -2,11 +2,10 @@ package ru.topjava.voting.web.user;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import ru.topjava.voting.model.User;
 import ru.topjava.voting.to.UserTo;
-import ru.topjava.voting.web.AuthorizedUser;
 
 import static ru.topjava.voting.util.ValidationUtil.assureIdConsistent;
 import static ru.topjava.voting.web.SecurityUtil.authUserId;
