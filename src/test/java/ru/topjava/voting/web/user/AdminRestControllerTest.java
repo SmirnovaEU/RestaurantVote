@@ -9,10 +9,9 @@ import ru.topjava.voting.TestUtil;
 import ru.topjava.voting.UserTestData;
 import ru.topjava.voting.model.User;
 import ru.topjava.voting.repository.UserRepository;
+import ru.topjava.voting.util.exception.NotFoundException;
 import ru.topjava.voting.web.AbstractControllerTest;
 import ru.topjava.voting.web.json.JsonUtil;
-
-import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -56,7 +55,7 @@ class AdminRestControllerTest extends AbstractControllerTest {
                 .with(userHttpBasic(admin)))
                 .andExpect(status().isNoContent())
                 .andDo(print());
-        assertThrows(NoSuchElementException.class, () -> userRepository.get(USER_ID));
+        assertThrows(NotFoundException.class, () -> userRepository.get(USER_ID));
     }
 
     @Test
