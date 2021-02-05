@@ -3,6 +3,7 @@ package ru.topjava.voting.repository.datajpa;
 import org.springframework.stereotype.Repository;
 import ru.topjava.voting.model.Dish;
 import ru.topjava.voting.repository.DishRepository;
+import ru.topjava.voting.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -36,7 +37,7 @@ public class DataJpaDishRepository implements DishRepository {
     public Dish get(int id, int restId) {
         return crudDishRepository.findById(id)
                 .filter(dish -> dish.getRestaurant().getId() == restId)
-                .orElseThrow();
+                .orElseThrow(() -> new NotFoundException("There is no such dish"));
     }
 
     @Override

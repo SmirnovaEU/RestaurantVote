@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import ru.topjava.voting.model.User;
 import ru.topjava.voting.repository.UserRepository;
+import ru.topjava.voting.util.exception.NotFoundException;
 import ru.topjava.voting.web.AuthorizedUser;
 
 import java.time.LocalDate;
@@ -44,7 +45,7 @@ public class DataJpaUserRepository implements UserRepository, UserDetailsService
 
     @Override
     public User get(int id) {
-        return crudRepository.findById(id).orElseThrow();
+        return crudRepository.findById(id).orElseThrow(() -> new NotFoundException("There is no such user"));
     }
 
     @Override

@@ -6,6 +6,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
 import ru.topjava.voting.model.Restaurant;
 import ru.topjava.voting.repository.RestRepository;
+import ru.topjava.voting.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -34,7 +35,7 @@ public class DataJpaRestRepository implements RestRepository {
 
     @Override
     public Restaurant get(int id) {
-        return crudRepository.findById(id).orElseThrow();
+        return crudRepository.findById(id).orElseThrow(() -> new NotFoundException("There is no such restaurant"));
     }
 
     @Override

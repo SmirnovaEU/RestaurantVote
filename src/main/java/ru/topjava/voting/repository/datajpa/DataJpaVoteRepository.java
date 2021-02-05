@@ -4,6 +4,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.topjava.voting.model.Vote;
 import ru.topjava.voting.repository.VoteRepository;
+import ru.topjava.voting.util.exception.NotFoundException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -40,7 +41,7 @@ public class DataJpaVoteRepository implements VoteRepository {
     public Vote get(int id, int userId) {
         return crudVoteRepository.findById(id)
                 .filter(vote -> vote.getUser().getId() == userId)
-                .orElseThrow();
+                .orElseThrow(() -> new NotFoundException("There is no such vote"));
     }
 
     @Override
