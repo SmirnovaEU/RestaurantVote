@@ -13,7 +13,9 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.topjava.voting.model.Restaurant;
 import ru.topjava.voting.model.Vote;
 import ru.topjava.voting.repository.RestRepository;
-import ru.topjava.voting.repository.VoteRepository;
+import ru.topjava.voting.repository.datajpa.CrudUserRepository;
+import ru.topjava.voting.repository.datajpa.CrudVoteRepository;
+import ru.topjava.voting.util.exception.NotFoundException;
 import ru.topjava.voting.web.SecurityUtil;
 
 import java.net.URI;
@@ -31,7 +33,10 @@ public class VoteRestController {
     private static final Logger log = LoggerFactory.getLogger(VoteRestController.class);
 
     @Autowired
-    private VoteRepository voteRepository;
+    private CrudVoteRepository voteRepository;
+
+    @Autowired
+    private CrudUserRepository userRepository;
 
     @Autowired
     private RestRepository restRepository;
@@ -73,7 +78,7 @@ public class VoteRestController {
         //must be checked if there's already a vote for the current date
         checkFound(voteRepository.getByDate(date, userId) != null, "date = " + date);
         log.info("create vote {} for user {}", vote, userId);
-        Vote created = voteRepository.save(vote, userId);
+        Vote created = save(vote, userId);
 
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
@@ -98,6 +103,15 @@ public class VoteRestController {
         checkNotFoundWithId(rest, restId);
         vote.setRestaurant(rest);
         log.info("update vote for date {} for user {}", date, userId);
-        voteRepository.save(vote, userId);
+        save(vote, userId);
+    }
+
+    public Vote save(Vote vote, int userId) {
+        if (!vote.isNew() && voteRepository.get(vote.getId(), userId) == null) {
+            return null;
+        }
+        vote.setUser(userRepository.getOne(userId));
+        vote.setDate(LocalDate.now());
+        return voteRepository.save(vote);
     }
 }

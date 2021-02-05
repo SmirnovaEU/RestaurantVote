@@ -15,9 +15,9 @@ import java.util.List;
 public class DataJpaRestRepository implements RestRepository {
     private static final Sort SORT_NAME = Sort.by(Sort.Direction.ASC, "name");
 
-    private final CrudRestRepository crudRepository;
+    private final CrudRestaurantRepository crudRepository;
 
-    public DataJpaRestRepository(CrudRestRepository crudRepository) {
+    public DataJpaRestRepository(CrudRestaurantRepository crudRepository) {
         this.crudRepository = crudRepository;
     }
 

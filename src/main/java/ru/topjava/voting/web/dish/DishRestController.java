@@ -7,7 +7,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import ru.topjava.voting.model.Dish;
-import ru.topjava.voting.repository.DishRepository;
+import ru.topjava.voting.repository.datajpa.CrudDishRepository;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -19,7 +19,7 @@ public class DishRestController {
     static final String REST_URL = "/rest/profile/rests/{restId}/dishes";
 
     @Autowired
-    private DishRepository dishRepository;
+    private CrudDishRepository dishRepository;
 
     @GetMapping("/{id}")
     public Dish get(@PathVariable("id") int id, @PathVariable("restId") int restId) {

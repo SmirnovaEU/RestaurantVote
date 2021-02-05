@@ -10,7 +10,8 @@ import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.topjava.voting.model.Dish;
-import ru.topjava.voting.repository.DishRepository;
+import ru.topjava.voting.repository.datajpa.CrudDishRepository;
+import ru.topjava.voting.repository.datajpa.CrudRestaurantRepository;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -25,7 +26,10 @@ public class DishAdminRestController {
     static final String REST_URL = "/rest/admin/rests/{restId}/dishes";
 
     @Autowired
-    private DishRepository dishRepository;
+    private CrudDishRepository dishRepository;
+
+    @Autowired
+    private CrudRestaurantRepository restaurantRepository;
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
@@ -43,7 +47,7 @@ public class DishAdminRestController {
         LocalDate date = dishRepository.get(id, restId).getDate();
         dish.setDate(date);
         log.info("update dish {} for restaurant {}", id, restId);
-        checkNotFoundWithId(dishRepository.save(dish, restId), dish.id());
+        checkNotFoundWithId(save(dish, restId), dish.id());
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -52,11 +56,19 @@ public class DishAdminRestController {
         checkNew(dish);
         Assert.notNull(dish, "dish must not be null");
         log.info("create dish {} for restaurant {}", dish, restId);
-        Dish created = dishRepository.save(dish, restId);
+        Dish created = save(dish, restId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
                 .buildAndExpand(restId, created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
+    }
+
+    public Dish save(Dish dish, int restId) {
+        if (!dish.isNew() && dishRepository.get(dish.getId(), restId) == null) {
+            return null;
+        }
+        dish.setRestaurant(restaurantRepository.getOne(restId));
+        return dishRepository.save(dish);
     }
 
 }

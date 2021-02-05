@@ -6,7 +6,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.topjava.voting.model.Vote;
-import ru.topjava.voting.repository.VoteRepository;
+import ru.topjava.voting.repository.datajpa.CrudVoteRepository;
 import ru.topjava.voting.web.AbstractControllerTest;
 import ru.topjava.voting.web.json.JsonUtil;
 
@@ -24,7 +24,7 @@ class VoteRestControllerTest extends AbstractControllerTest {
     private static final String REST_URL = VoteRestController.REST_URL + '/';
 
     @Autowired
-    private VoteRepository voteRepository;
+    private CrudVoteRepository voteRepository;
 
     @Test
     void getByDate() throws Exception {
